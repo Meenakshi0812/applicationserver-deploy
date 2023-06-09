@@ -25,9 +25,9 @@ pipeline {
                     def remoteFolderPath = "/var/www/html/${folderName}"
 
                     sh "ssh -o StrictHostKeyChecking=no ubuntu@3.86.97.100 'mkdir -p ${remoteFolderPath}'"
-                    sh "scp -o StrictHostKeyChecking=no -r ${clonePath} ubuntu@3.86.97.100:${remoteFolderPath}/"
-                    sh "ssh -o StrictHostKeyChecking=no ubuntu@3.86.97.100 'cd ${remoteFolderPath} && zip -r /var/www/html/${zipFileName} *'"
-                    sh "ssh -o StrictHostKeyChecking=no ubuntu@3.86.97.100 'unzip -o /var/www/html/${zipFileName} -d /var/www/html'"
+                    sh "zip -r ${clonePath}/${zipFileName} ${clonePath}/*"
+                    sh "scp -o StrictHostKeyChecking=no ${clonePath}/${zipFileName} ubuntu@3.86.97.100:${remoteFolderPath}/"
+                    sh "ssh -o StrictHostKeyChecking=no ubuntu@3.86.97.100 'unzip -o ${remoteFolderPath}/${zipFileName} -d ${remoteFolderPath}'"
                     sh "ssh -o StrictHostKeyChecking=no ubuntu@3.86.97.100 'ln -sfn ${remoteFolderPath} /var/www/html/code'"
                 }
             }
