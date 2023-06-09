@@ -8,7 +8,9 @@ pipeline {
                     def timestamp = new Date().format("yyyy-MM-dd-HH-mm")
                     def clonePath = "/home/ubuntu/${timestamp}"
                     
-                    git branch: 'main', url: 'https://github.com/Meenakshi0812/applicationserver-deploy.git', directory: clonePath
+                    dir(clonePath) {
+                        git branch: 'main', url: 'https://github.com/Meenakshi0812/applicationserver-deploy.git'
+                    }
                 }
             }
         }
