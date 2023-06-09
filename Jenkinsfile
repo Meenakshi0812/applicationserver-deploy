@@ -22,11 +22,12 @@ pipeline {
                     def folderName = "code_${timestamp}"
                     def zipFileName = "${folderName}.zip"
                     def clonePath = "/home/ubuntu/${timestamp}"
+                    def remoteFolderPath = "/var/www/html/${folderName}"
 
-                    sh "scp -o StrictHostKeyChecking=no -r ${clonePath}/* ubuntu@3.86.97.100:/var/www/html/${folderName}/"
-                    sh "ssh -o StrictHostKeyChecking=no ubuntu@3.86.97.100 'cd /var/www/html/${folderName} && zip -r /var/www/html/${zipFileName} *'"
+                    sh "scp -o StrictHostKeyChecking=no -r ${clonePath}/* ubuntu@3.86.97.100:${remoteFolderPath}/"
+                    sh "ssh -o StrictHostKeyChecking=no ubuntu@3.86.97.100 'cd ${remoteFolderPath} && zip -r /var/www/html/${zipFileName} *'"
                     sh "ssh -o StrictHostKeyChecking=no ubuntu@3.86.97.100 'unzip -o /var/www/html/${zipFileName} -d /var/www/html'"
-                    sh "ssh -o StrictHostKeyChecking=no ubuntu@3.86.97.100 'ln -sfn /var/www/html/${folderName} /var/www/html/code'"
+                    sh "ssh -o StrictHostKeyChecking=no ubuntu@3.86.97.100 'ln -sfn ${remoteFolderPath} /var/www/html/code'"
                 }
             }
         }
